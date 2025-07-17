@@ -1,0 +1,633 @@
+/* --- Base and Reset --- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- CSS Variables --- */
+:root {
+    /* Light Mode - Bright & Vibrant */
+    --primary-accent: #00c6ff; /* Bright cyan */
+    --primary-accent-hover: #0095ff;
+    --gradient-text: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+    --gradient-bg: linear-gradient(135deg, #f6f9fc 0%, #eef2f5 100%);
+    --bg-color: #f6f9fc; /* Very light blue-gray */
+    --surface-color: #ffffff; /* White */
+    --text-color: #1a1a2e; /* Dark blue-gray */
+    --text-muted: #6c757d; /* Medium gray */
+    --border-color: #d1d9e6; /* Light blue-gray border */
+    --card-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    --input-bg: #ffffff;
+
+    /* Vibrant status colors */
+    --status-available: #28a745; /* Bright green */
+    --status-reserved: #fd7e14; /* Bright orange */
+    --status-onloan: #dc3545;    /* Bright red */
+
+    --icon-sun-display: block;
+    --icon-moon-display: none;
+}
+
+[data-theme="dark"] {
+    /* Dark Mode - Deep & Electric */
+    --primary-accent: #9d4edd; /* Vibrant purple */
+    --primary-accent-hover: #7b2cbf;
+    --gradient-text: linear-gradient(135deg, #9d4edd 0%, #3a0ca3 100%);
+    --gradient-bg: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    --bg-color: #1a1a2e; /* Deep blue */
+    --surface-color: #16213e; /* Darker blue */
+    --text-color: #f8f9fa; /* Off-white */
+    --text-muted: #adb5bd; /* Light gray */
+    --border-color: #495057; /* Dark gray */
+    --card-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    --input-bg: #212529;
+
+    /* Brighter status colors for dark mode */
+    --status-available: #20c997; /* Teal */
+    --status-reserved: #ffc107; /* Bright yellow */
+    --status-onloan: #ff6b6b;   /* Soft red */
+
+    --icon-sun-display: none;
+    --icon-moon-display: block;
+}
+
+/* --- Gradient Text Elements --- */
+.gradient-text {
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+
+.logo,
+h1.gradient-text,
+h2.gradient-text,
+nav a.active { /* Apply gradient to active nav link */
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* --- Global Styles --- */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--gradient-bg);
+    background-attachment: fixed;
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background 0.5s ease, color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 0.75em;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+/* Make headings more vibrant */
+h1 {
+    font-size: 2.8rem;
+    letter-spacing: -0.5px;
+}
+h2 {
+    font-size: 2.2rem;
+    letter-spacing: -0.25px;
+}
+h3 {
+    font-size: 1.8rem;
+}
+
+/* --- Layout (Assuming similar structure as before) --- */
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 0;
+}
+
+.content-area {
+    flex-grow: 1; /* Pushes footer down */
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+/* --- Header --- */
+.site-header {
+    background-color: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+    padding: 0.8rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
+     flex-wrap: wrap; /* Allow wrapping */
+    gap: 1rem; /* Add gap between wrapped items */
+}
+
+.logo {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem; /* Slightly smaller gap */
+    align-items: center; /* Vertically align nav items */
+    flex-wrap: wrap; /* Allow nav items to wrap */
+    padding-left: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+}
+
+nav a {
+    color: var(--text-muted);
+    font-weight: 500;
+    padding: 0.5rem 0;
+    position: relative;
+    text-decoration: none;
+}
+nav a:hover {
+    color: var(--primary-accent);
+}
+
+/* --- Search Form in Header --- */
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Gap between input/select/button */
+    flex-grow: 1; /* Allow it to take available space */
+    max-width: 400px; /* Optional: Limit max width */
+    margin-left: auto; /* Push it towards the right before the toggle */
+    margin-right: 1rem; /* Space before theme toggle */
+}
+
+.search-form input[type="search"],
+.search-form select {
+    padding: 0.5em 0.8em; /* Adjust padding */
+    font-size: 0.9rem; /* Slightly smaller font */
+    /* Inherit styles from general form inputs */
+}
+
+.search-form button {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.5em;
+    line-height: 1;
+}
+
+.search-form button:hover {
+    color: var(--primary-accent);
+}
+
+/* --- Theme Toggle Button --- */
+.theme-toggle-button { /* Renamed class */
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    line-height: 1;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle-button:hover {
+    color: var(--primary-accent);
+    transform: scale(1.1) rotate(15deg);
+}
+
+.theme-toggle-button .icon-sun {
+    display: var(--icon-sun-display);
+}
+
+.theme-toggle-button .icon-moon {
+    display: var(--icon-moon-display);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    h1 { font-size: 2.3rem; }
+    h2 { font-size: 1.9rem; }
+    .logo { font-size: 2rem; }
+
+    .header-content {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    nav ul {
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+/* --- Flash Messages --- */
+.flash-messages {
+    margin-bottom: 1.5rem;
+}
+
+.alert {
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--text-color); /* Default text color */
+    background-color: var(--surface-color); /* Default surface color */
+    box-shadow: var(--card-shadow);
+}
+
+/* Specific alert types - using status colors */
+.alert-success {
+    border-left: 5px solid var(--status-available);
+    background-color: hsla(134, 61%, 90%, 1); /* Light green */
+    color: #155724;
+}
+
+.alert-error {
+    border-left: 5px solid var(--status-onloan);
+    background-color: hsla(354, 70%, 94%, 1); /* Light red */
+    color: #721c24;
+}
+
+.alert-info {
+    border-left: 5px solid var(--primary-accent);
+    background-color: hsla(195, 100%, 95%, 1); /* Light blue */
+    color: #0c5460;
+}
+
+/* Dark mode adjustments for alerts */
+[data-theme="dark"] .alert-success {
+    background-color: hsla(145, 63%, 20%, 0.8);
+    color: #c3e6cb;
+}
+
+[data-theme="dark"] .alert-error {
+    background-color: hsla(354, 70%, 25%, 0.8);
+    color: #f5c6cb;
+}
+
+[data-theme="dark"] .alert-info {
+    background-color: hsla(263, 70%, 20%, 0.8); /* Using dark primary accent base */
+    color: #bee5eb;
+}
+
+/* --- Buttons --- */
+.btn {
+    display: inline-block;
+    padding: 0.75em 1.5em;
+    border: none;
+    border-radius: 8px; /* Slightly more rounded */
+    font-size: 0.95rem;
+    font-weight: 600; /* Bolder */
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    line-height: 1.2;
+    text-decoration: none; /* Ensure links styled as buttons have no underline */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.btn-primary {
+    background: var(--gradient-text); /* Use gradient */
+    color: white;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Keep the hover effect using ::before */
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-accent-hover);
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+}
+
+.btn-primary:hover::before {
+    opacity: 1;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary-accent);
+    border: 2px solid var(--primary-accent); /* Thicker border */
+    padding: calc(0.75em - 2px) calc(1.5em - 2px); /* Adjust padding for border */
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-accent);
+    color: #fff;
+    border-color: var(--primary-accent);
+}
+
+/* Specific Action Buttons */
+.remove-button {
+    /* Inherit from .btn */
+    background-color: var(--status-onloan); /* Use status color */
+    color: white;
+    box-shadow: 0 2px 8px hsla(354, 70%, 54%, 0.3); /* Use status color for shadow */
+}
+
+.remove-button:hover {
+    background-color: hsl(354, 70%, 44%); /* Darken status color */
+    box-shadow: 0 4px 12px hsla(354, 70%, 54%, 0.4);
+}
+
+.view-button {
+    /* Inherit from .btn */
+    background-color: var(--text-muted);
+    color: var(--surface-color);
+}
+
+.view-button:hover {
+    background-color: var(--text-color);
+}
+
+/* Style for buttons inside tables */
+td .btn, 
+td form button.btn { /* Target buttons with .btn class inside td */
+    padding: 0.5em 1em; /* Smaller padding */
+    font-size: 0.85rem;
+    margin-right: 0.3rem;
+}
+td form button:not(.btn) { /* Style submit buttons in forms if they DON'T have .btn */
+    /* Apply some basic styling or encourage adding .btn */
+    padding: 0.5em 1em;
+    font-size: 0.85rem;
+    margin-right: 0.3rem;
+    border-radius: 6px;
+    cursor: pointer;
+    /* Add specific background/border based on action if needed */
+}
+
+.btn:disabled,
+.btn[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* --- Tables --- */
+table.data-table { /* Style tables with this class */
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+}
+
+table.data-table thead {
+    background-color: var(--surface-color);
+    border-bottom: 2px solid var(--border-color);
+}
+
+[data-theme="dark"] table.data-table thead {
+    background-color: var(--bg-color); /* Darker header in dark mode */
+}
+
+table.data-table th,
+table.data-table td {
+    padding: 0.8em 1em;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+table.data-table th {
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.85em;
+}
+
+table.data-table tbody tr:hover {
+    background-color: var(--bg-color); /* Use main bg for hover */
+}
+
+[data-theme="dark"] table.data-table tbody tr:hover {
+    background-color: var(--surface-color); /* Use surface for hover in dark */
+}
+
+table.data-table td a {
+    font-weight: 500; /* Make links slightly bolder */
+}
+
+/* --- Status Badges --- */
+.status-badge {
+    display: inline-block;
+    padding: 0.3em 0.6em;
+    font-size: 0.8em;
+    font-weight: 600;
+    border-radius: 4px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+
+.status-available {
+    background-color: var(--status-available);
+    box-shadow: 0 1px 4px hsla(134, 61%, 41%, 0.3);
+}
+.status-reserved {
+    background-color: var(--status-reserved);
+    box-shadow: 0 1px 4px hsla(32, 98%, 50%, 0.3);
+}
+.status-onloan {
+    background-color: var(--status-onloan);
+    box-shadow: 0 1px 4px hsla(354, 70%, 54%, 0.3);
+}
+
+/* --- Forms --- */
+.form-group {
+    margin-bottom: 1.5rem; /* Increased spacing */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Common styles for text inputs and select */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-color); /* Use main background */
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    appearance: none; /* Remove default system appearance */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* Specific style for select to add dropdown arrow */
+select {
+    background-image: linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
+                      linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+    background-position: calc(100% - 20px) calc(1em + 2px),
+                         calc(100% - 15px) calc(1em + 2px);
+    background-size: 5px 5px,
+                     5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 2.5rem; /* Make space for the arrow */
+}
+
+/* Focus styles */
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px hsla(var(--primary-color-hsl), 0.3);
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="password"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] input[type="number"],
+[data-theme="dark"] input[type="search"],
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+    background-color: var(--surface-color); /* Slightly lighter background in dark mode */
+    border-color: var(--border-color-dark);
+}
+
+[data-theme="dark"] select {
+     background-image: linear-gradient(45deg, transparent 50%, var(--text-muted-dark) 50%),
+                      linear-gradient(135deg, var(--text-muted-dark) 50%, transparent 50%);
+}
+
+/* Style for placeholder text */
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--text-muted);
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: var(--text-muted);
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] ::placeholder {
+    color: var(--text-muted-dark);
+}
+[data-theme="dark"] :-ms-input-placeholder {
+    color: var(--text-muted-dark);
+}
+[data-theme="dark"] ::-ms-input-placeholder {
+    color: var(--text-muted-dark);
+}
+
+/* --- Cards --- */
+.card {
+    background-color: var(--surface-color);
+    border-radius: 12px; /* More rounded */
+    box-shadow: var(--card-shadow);
+    overflow: hidden; /* Ensure content respects border radius */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1; /* Allow cards to grow */
+    min-width: 250px; /* Minimum width before wrapping */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+
+.card-actions {
+    padding: 0 1.5rem 1.5rem; /* Padding only at the bottom */
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end; /* Align buttons to the right */
+}
+
+/* --- Stat Cards Specific Styles --- */
+.stat-card .card-content {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 3rem; /* Larger number */
+    font-weight: 700;
+    color: var(--primary-accent);
+    line-height: 1.1;
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+/* Utility class for smaller buttons if needed */
+.btn-small {
+    padding: 0.5em 1em;
+    font-size: 0.85rem;
+}
+
+.btn:disabled,
+.btn[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
