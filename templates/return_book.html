@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Return Book{% endblock %}
+
+{% block content %}
+    <h2 class="gradient-text">Return a Book</h2> {# Added gradient-text #}
+    <div class="card"> {# Wrap form/message in card #}
+        <div class="card-content">
+            {% if not borrowed_books %}
+                <p class="alert alert-info">No books are currently borrowed.</p> {# Use alert class #}
+            {% else %}
+                <form method="post">
+                    <div class="form-group">
+                        <label for="book_id">Select Book to Return:</label>
+                        <select id="book_id" name="book_id" required>
+                            <option value="">-- Select a Book --</option>
+                            {% for book_id, book in borrowed_books.items()|sort %}
+                                <option value="{{ book_id }}" {% if selected_book == book_id %}selected{% endif %}>{{ book.name }} ({{ book_id }}) - Borrowed by {{ book.borrowed_by }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Return Selected Book</button> {# Updated button class #}
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+    <h2>Search Results for "{{ query }}" (in {{ search_type|capitalize }}s)</h2>
+
+    {% if not results %}
+        <p>No results found matching your query.</p>
+    {% else %}
+        {% if search_type == 'book' %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Author</th>
+                        <th>Genre</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in results %}
+                        <tr>
+                            <td>{{ book.book_id }}</td>
+                            <td><a href="{{ url_for('book_profile', book_id=book.book_id) }}">{{ book.name }}</a></td>
+                            <td>{{ book.author }}</td>
+                            <td>{{ book.genre }}</td>
+                            <td>
+                                {% if book.borrowed_by %}
+                                    Borrowed by <a href="{{ url_for('student_profile', student_id=book.borrowed_by) }}">{{ book.borrowed_by }}</a>
+                                {% else %}
+                                    <span class="available">Available</span>
+                                {% endif %}
+                            </td>
+                             <td><a href="{{ url_for('book_profile', book_id=book.book_id) }}" class="button view-button">View</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% elif search_type == 'student' %}
+             <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Borrowed Books Count</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in results %}
+                        <tr>
+                            <td>{{ student.student_id }}</td>
+                            <td><a href="{{ url_for('student_profile', student_id=student.student_id) }}">{{ student.name }}</a></td>
+                             <td>{{ student.borrowed_books|length }}</td>
+                             <td><a href="{{ url_for('student_profile', student_id=student.student_id) }}" class="button view-button">View</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    {% endif %}
+    <br>
+    <a href="{{ url_for('index') }}">&laquo; Back to Home</a>
+{% endblock %}

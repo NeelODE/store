@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Add Book{% endblock %}
+
+{% block content %}
+    <h2 class="gradient-text">Add New Book</h2> {# Added gradient-text #}
+    <div class="card"> {# Wrap form in card #}
+        <div class="card-content">
+            <form method="post">
+                <div class="form-group">
+                    <label for="name">Book Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="author">Author:</label>
+                    <input type="text" id="author" name="author" required>
+                </div>
+                <div class="form-group">
+                    <label for="genre">Genre:</label>
+                    <input type="text" id="genre" name="genre" required>
+                </div>
+                <div class="form-group">
+                    <label for="shelf">Shelf:</label>
+                    <input type="text" id="shelf" name="shelf" required>
+                </div>
+                <div class="form-group">
+                    <label for="language">Language:</label>
+                    <input type="text" id="language" name="language" value="English" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Book</button> {# Updated button class #}
+            </form>
+        </div>
+    </div>
+{% endblock %}

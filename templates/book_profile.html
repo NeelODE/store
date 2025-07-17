@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Book Profile: {{ book.name }}{% endblock %}
+
+{% block content %}
+    <h2 class="gradient-text">Book Profile: {{ book.name }}</h2>
+
+    <div class="card"> {# Wrap details in a card #}
+        <div class="card-content profile-details">
+            <p><strong>Book ID:</strong> {{ book.book_id }}</p>
+            <p><strong>Author:</strong> {{ book.author }}</p>
+            <p><strong>Genre:</strong> {{ book.genre }}</p>
+            <p><strong>Shelf:</strong> {{ book.shelf }}</p>
+            <p><strong>Language:</strong> {{ book.language }}</p>
+            <p><strong>Status:</strong>
+                {% if book.borrowed_by %}
+                    <span class="status-badge status-onloan">On Loan</span> to:
+                    {% if borrower_name %}
+                        {# Use small secondary button style for the link #}
+                        <a href="{{ url_for('student_profile', student_id=book.borrowed_by) }}" class="btn btn-secondary btn-small">{{ borrower_name }} (ID: {{ book.borrowed_by }})</a>
+                    {% else %}
+                        Student ID {{ book.borrowed_by }} (Profile not found)
+                    {% endif %}
+                {% else %}
+                    <span class="status-badge status-available">Available</span> {# Use status badge #}
+                {% endif %}
+            </p>
+        </div>
+        <div class="card-actions"> {# Wrap actions #}
+            {% if book.borrowed_by %}
+               <p style="margin-right: auto; color: var(--text-muted); font-size: 0.9em;">Return book first.</p> {# Info text #}
+               <a href="{{ url_for('return_book') }}" class="btn btn-primary">Go to Return</a> {# Button style #}
+            {% else %}
+                <form action="{{ url_for('remove_book', book_id=book.book_id) }}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to remove this book?');">
+                    {# Ensure button has correct classes #}
+                    <button type="submit" class="btn remove-button">Remove Book</button>
+                </form>
+                 <a href="{{ url_for('issue_book') }}" class="btn btn-primary">Go to Issue</a> {# Button style #}
+            {% endif %}
+        </div>
+    </div>
+
+    <div style="margin-top: 1.5rem;">
+        <a href="{{ url_for('list_books') }}" class="btn btn-secondary">&laquo; Back to Books List</a> {# Button style #}
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Issue Book{% endblock %}
+
+{% block content %}
+    <h2 class="gradient-text">Issue a Book</h2> {# Added gradient-text #}
+    <div class="card"> {# Wrap form/message in card #}
+        <div class="card-content">
+            {% if not available_books %}
+                <p class="alert alert-info">There are currently no books available to borrow.</p> {# Use alert class #}
+            {% elif not eligible_students %}
+                <p class="alert alert-info">There are currently no students eligible to borrow (either none exist or all have borrowed 2 books).</p> {# Use alert class #}
+            {% else %}
+                <form method="post">
+                    <div class="form-group">
+                        <label for="book_id">Select Book (Available):</label>
+                        <select id="book_id" name="book_id" required>
+                            <option value="">-- Select a Book --</option>
+                            {% for book_id, book in available_books.items()|sort %}
+                                <option value="{{ book_id }}" {% if selected_book == book_id %}selected{% endif %}>{{ book.name }} ({{ book_id }}) by {{ book.author }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="student_id">Select Student (Borrowed &lt; 2):</label>
+                        <select id="student_id" name="student_id" required>
+                            <option value="">-- Select a Student --</option>
+                            {% for student_id, student in eligible_students.items()|sort %}
+                                <option value="{{ student_id }}" {% if selected_student == student_id %}selected{% endif %}>{{ student.name }} ({{ student_id }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Issue Book</button> {# Updated button class #}
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

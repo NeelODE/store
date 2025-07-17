@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Add Student{% endblock %}
+
+{% block content %}
+    <h2 class="gradient-text">Add New Student</h2> {# Added gradient-text #}
+    {# Removed page-header div, button moved below form #}
+    <div class="card"> {# Wrap form in card #}
+        <div class="card-content">
+            <form method="post">
+                <div class="form-group">
+                    <label for="name">Student Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Student</button> {# Updated button class #}
+            </form>
+        </div>
+    </div>
+    <div style="margin-top: 1.5rem;"> {# Add some space #}
+         <a href="{{ url_for('add_book') }}" class="btn btn-secondary">Go to Add Book</a> {# Use secondary button style #}
+    </div>
+{% endblock %}

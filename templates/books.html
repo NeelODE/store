@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Books List{% endblock %}
+
+{% block content %}
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 class="gradient-text">All Books</h2> {# Added gradient-text #}
+        <a href="{{ url_for('add_book') }}" class="btn btn-primary">Add New Book</a> {# Updated button class #}
+    </div>
+    <div class="card"> {# Wrap table in card #}
+        <div class="card-content">
+            {% if books %}
+                <table class="data-table"> {# Add class for potential specific table styles #}
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Author</th>
+                            <th>Genre</th>
+                            <th>Shelf</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book_id, book in books.items()|sort %}
+                            <tr>
+                                <td>{{ book.book_id }}</td>
+                                <td>{{ book.name }}</td> {# Removed link #}
+                                <td>{{ book.author }}</td>
+                                <td>{{ book.genre }}</td>
+                                <td>{{ book.shelf }}</td>
+                                <td>
+                                    {% if book.borrowed_by %}
+                                        <span class="status-badge status-onloan">On Loan</span> to <a href="{{ url_for('student_profile', student_id=book.borrowed_by) }}">{{ book.borrowed_by }}</a>
+                                    {% else %}
+                                        <span class="status-badge status-available">Available</span> {# Use status badge #}
+                                    {% endif %}
+                                </td>
+                                <td class="card-actions"> {# Use card-actions for button layout #}
+                                    <form action="{{ url_for('remove_book', book_id=book.book_id) }}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to remove this book?');">
+                                        <button type="submit" class="btn remove-button">Remove</button> {# Use specific button class #}
+                                    </form>
+                                    <a href="{{ url_for('book_profile', book_id=book.book_id) }}" class="btn view-button">View</a> {# Use specific button class #}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No books found in the library yet.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
