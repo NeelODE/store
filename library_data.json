@@ -1,0 +1,27 @@
+{
+  "books": {
+    "B001": {
+      "name": "harry potter",
+      "book_id": "B001",
+      "shelf": "k",
+      "author": "s",
+      "genre": "j",
+      "borrowed_by": null,
+      "language": "k"
+    }
+  },
+  "students": {
+    "S101": {
+      "name": "beel",
+      "student_id": "S101",
+      "borrowed_books": []
+    },
+    "S102": {
+      "name": "geel",
+      "student_id": "S102",
+      "borrowed_books": []
+    }
+  },
+  "next_book_id": 2,
+  "next_student_id": 103
+}
